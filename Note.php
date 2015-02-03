@@ -5,18 +5,31 @@
 дял каждого класса отдельный фаил. к
 
 имя файла Demo.php
+<?php
 
 class Demo
 {
   public $color;
   private $massa
   public function getColore()
+  {
+    return $this->color;
+  }
+  public finction setColor()
+  {
+    if($this->userType == 'admin') //
     {
-      return $this->color;
+      $this->color = $color;
     }
+    else
+    {
+      return false;
+    }
+    return true;
+  }
 }
 
 
 $obj = new Demo();
-$obj->color = 'red';
-echo $obj->color;
+$obj->setColor('red');
+$obj->getColor;

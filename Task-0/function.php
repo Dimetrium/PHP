@@ -1,13 +1,31 @@
 <?php
-	mysql_connect(HOST, USER, PASSWORD);
-	mysql_select_db(DB_NAME);
-	$qGenre=mysql_query("SELECT genrename FROM genre");	
-  $dropdown='';
-	while($genre=mysql_fetch_assoc($qGenre)){
-		$dropdown .= $genre[genrename];
-	}	
-	if(isset($_GET['show'])){
-		$qShow=mysql_query("
+//$qGenre=mysql_query("SELECT genrename FROM genre");	
+//
+//$dropdown = '';
+//
+//while($genre=mysql_fetch_assoc($qGenre)){
+//	$dropdown .= $genre[genrename];
+//}
+//mysql_fetch_assoc($qShow)
+	
+function genreMenu(){
+		$query = 
+			"SELECT genrename FROM genre";
+		$result = mysql_query($query) or die(mysql_query(Error));
+			
+		$allgenre = array();
+			
+		while($row = mysql_fetch_assoc($result))
+		{
+			$allgenre[] = $row; 
+		}
+		
+	return $allgenre;
+	}
+
+
+function getAll(){
+	$query = "
 			SELECT
 				b.id,
 				b.title,
@@ -40,12 +58,8 @@
 				OR
 				a.authorname LIKE '%$_GET[search]%')
 		 	GROUP BY 
-				b.title
-		");
-		$rcolor=RCOLOR;
-		while($show=mysql_fetch_assoc($qShow)){
-      if(($rcolor%2)==RCOLOR); 
-        $rcolor++;
-		};
-	}
-?>
+				b.title"
+		;
+	$result = mysql_query($query) or die(mysql_query(Error));
+	$all
+}

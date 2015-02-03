@@ -1,12 +1,4 @@
 <?php
-//$qGenre=mysql_query("SELECT genrename FROM genre");	
-//
-//$dropdown = '';
-//
-//while($genre=mysql_fetch_assoc($qGenre)){
-//	$dropdown .= $genre[genrename];
-//}
-//mysql_fetch_assoc($qShow)
 function genreMenu(){
 		global $link;
 		$query = 
@@ -15,15 +7,17 @@ function genreMenu(){
     /* Запустить запрос */
     mysqli_stmt_execute($stmt);
     /* Определить переменные для результата */
-    mysqli_stmt_bind_result($stmt, $genrename);
+    mysqli_stmt_bind_result($stmt, $genre);
     /* Выбрать значения */
+    
+    $dropdown = '';
     while (mysqli_stmt_fetch($stmt)) 	{
-			$allgenre[] = $genrename; 
+			$dropdown .= $genre[genrename];
 		}
 			    mysqli_stmt_close($stmt);
 //	mysqli_free_result($result);
 	mysqli_close($link);
-	return $allgenre;
+	return $dropdown;
 	}
 }
 

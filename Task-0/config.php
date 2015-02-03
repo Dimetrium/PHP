@@ -4,7 +4,7 @@ define('DEFAULT', 'Boooks Maggazzinn');
 	
 define('MYSQL_HOST', 'localhost');	
 define('MYSQL_USER', 'root');	
-define('MYSQL_PASS', '1qaz2wsx');	
+define('MYSQL_PASS', '');	
 define('MYSQL_DB_NAME', 'books');	
 
 define('MODEL', 'model.php');	

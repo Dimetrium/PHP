@@ -30,7 +30,7 @@ $dirdata= scandir(UPLOAD_DIR);
 		return false;
 }
 
-function FileSize()
+function fileS()
 {
 	$fsize = filesize(UPLOAD_DIR.$fname);
 			if ($fsize>1024)

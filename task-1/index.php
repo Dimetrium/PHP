@@ -40,7 +40,7 @@ else
 		}
 	}
 }	
-$files=createArray();
+$files=genreTable();
 
 
 if (isset($files))

@@ -111,9 +111,24 @@ class Test
   }  
 }
 
-$obj = new Test();
+$obj = new Test(); //что бы это работало, должны в методах    return $this;
 echo $obj->selectField('id, name, summa')->setTable('ORDERS')->setWhere('day => "01-01-2015"')->getSelect();//->execSql();
 
 ?>
 
+TASK 4 (light):
 
+Нужно сделать 3 отдельных касса которые наследуют один интерфейс.
+3 клсса для рабоыт сразным иданными:
+1 - mysql
+2 - cookies
+3 - session
+
+интерфейс:
+interface iDataWork
+умеет делать:
+публ метод add ($key, $val); 
+публ метод read ($key); 
+публ метод remove ($key); 
+
+функцией обрабатываем обьект -, сделать 3 функции (не в классах)и через них проганяем обьекты.(распечатка)

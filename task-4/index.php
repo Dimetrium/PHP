@@ -7,3 +7,8 @@ $data = new Cookies();
 $data->add("cookaaa","cookkaa value");
 $r = $data->read("cookaaa");  
 $data->remove("cookaaa");
+
+$query = new MySql();
+$query->add('John', 'Smith');
+echo $query->read('John');
+

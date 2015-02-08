@@ -1,31 +1,39 @@
 <?php
 class MySql implements iDataWork
 {
+  private $link;
   private $select;
-  public function __construc()
+  private $rez;
+  public function __construct()
   {
-    mysql_connect(HOST, USER, PASSWORD);
-    mysql_select_db(DATA_BASE);
-    $this->select = $select;
+    $link =  mysql_connect( HOST, USER, PASSWORD );
+    mysql_select_db( DATA_BASE, $link );
   }
 
-  public function add($key, $val)
+  public function add( $key, $val )
   {
-  $rrr = "INSERT INTO test (col1, col2) VALUES ('".$key."', '".$val."');";
-  mysql_query($rrr);
-   var_dump($rrr);
-   return true;
+    $query = "INSERT INTO genre ( kay, genrename ) VALUES ('".$key."', '".$val."');";
+    mysql_query( $query );
+    return true;
   }
 
-  public function read($key)
+  public function read( $key )
   {
-    $this->select = mysql_query("SELECT $key FROM ".TABLE." WHERE firstname=$key;");
-    return $this->select;
+    $this->select = mysql_query("SELECT kay, genrename  FROM ".TABLE." WHERE kay=$key;");
+    while ( $row =mysql_fetch_array( $this->select, MYSQL_NUM ))
+    { 
+      // TODO: put printing into controller....
+      $this->rez = sprintf("KEY: %s,<br> VALUE: %s <br>", $row[0], $row[1]);
+
+    } 
+    mysql_free_result($this->select);
+    return $this->rez;
   }
 
   public function remove($key)
   {
-    mysql_query("DELETE FROM ".TABLE." WHERE firstname=$key;");
+    //TODO: create notification of delete...
+    mysql_query("DELETE FROM ".TABLE." WHERE kay=$key;");
     return true;
   }
 }

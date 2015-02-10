@@ -1,11 +1,12 @@
 <?php
 class HtmlHelper
 {
-  public function renderSelectMulti($option, $valueKey, $name = $valueKey)
+  public static function renderSelectMulti($valueKey)
   {
     $reneder = '';
-    foreach ( $option as $opt )
-    {
-      $render .= '<select multiple> </select>'
+      $render .= '<select multiple>\n<option>'.$valueKey.'</option>\n</select>';
+    return $render;
   }
 }
+$test = HtmlHelper::renderSelectMulti('test');
+echo $test;

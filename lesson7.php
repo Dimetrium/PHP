@@ -48,7 +48,9 @@ Task-9
 http://www.codenet.ru/webmast/php/Templater.php, 
 http://maxsite.org/page/shablonizator-ili-formatirovanyj-php-i-html-vyvod-v-maxsite-cms
 http://www.cyberforum.ru/php-beginners/thread579423.html
-https://www.youtube.com/watch?v=FVRI_1E9y4Q)
+https://www.youtube.com/watch?v=FVRI_1E9y4Q
+http://webew.ru/articles/3609.webew
+http://amdy.su/own-templater/)
 
 HtmlHelper::
   select() // create selecte;

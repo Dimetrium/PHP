@@ -51,6 +51,7 @@ http://www.cyberforum.ru/php-beginners/thread579423.html
 https://www.youtube.com/watch?v=FVRI_1E9y4Q
 http://webew.ru/articles/3609.webew
 http://amdy.su/own-templater/)
+https://www.youtube.com/watch?v=ZQLzaFS0fBs
 
 HtmlHelper::
   select() // create selecte;

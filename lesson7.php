@@ -1,7 +1,8 @@
 <?php
 abstract class Demo
 {
-  private(protected) const DB_NAME = 'ABC'; //(по умалчанию паблик, но желательно закрывать) 
+  const DB_NAME = 'ABC'; 
+  public static $flag;
   protected $db;
   abstract public open($var);
   
@@ -14,7 +15,36 @@ class DemoChild extends Demo
       echo 'open';
     }
 }
-_____________________
+___________________________________________________________________
+singlTone
+
+class Demo
+{
+  private static $inst;
+  public static function run()
+  {
+    if ( self::$inst === null ) //first time running?
+    {
+      self::$inst = new Demo();
+    }
+    return self::$inst;
+  }
+  
+  private function __construct()
+  {
+    mysql_connect()
+  }
+}
+
+$obj = Demo::run();
 
 
+________________________________________________________________
 
+Task-9
+--------------------------------
+Шаблонизатор....
+
+HtmlHelper::
+  select() // create selecte;
+  table() // forming table

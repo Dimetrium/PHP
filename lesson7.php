@@ -43,7 +43,12 @@ ________________________________________________________________
 
 Task-9
 --------------------------------
-Шаблонизатор....(http://myrusakov.ru/php-template.html, http://twig.kron0s.com/, )
+Шаблонизатор....
+(http://myrusakov.ru/php-template.html, http://twig.kron0s.com/, 
+http://www.codenet.ru/webmast/php/Templater.php, 
+http://maxsite.org/page/shablonizator-ili-formatirovanyj-php-i-html-vyvod-v-maxsite-cms
+http://www.cyberforum.ru/php-beginners/thread579423.html
+https://www.youtube.com/watch?v=FVRI_1E9y4Q)
 
 HtmlHelper::
   select() // create selecte;

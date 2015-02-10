@@ -1,4 +1,4 @@
-<?php
+<?php (http://php.net/manual/ru/language.oop5.static.php)
 abstract class Demo
 {
   const DB_NAME = 'ABC'; 
@@ -16,7 +16,7 @@ class DemoChild extends Demo
     }
 }
 ___________________________________________________________________
-singlTone
+singlTone (http://habrahabr.ru/post/31375/)
 
 class Demo
 {
@@ -43,7 +43,7 @@ ________________________________________________________________
 
 Task-9
 --------------------------------
-Шаблонизатор....
+Шаблонизатор....(http://myrusakov.ru/php-template.html, http://twig.kron0s.com/, )
 
 HtmlHelper::
   select() // create selecte;

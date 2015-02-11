@@ -7,7 +7,7 @@ class Controller
 
 		public function __construct()
 		{		
-		    $this->model = new Model();
+	    $this->model = new Model();
 			$this->view = new View(TEMPLATE);	
 				
 			if(isset($_POST['email']))

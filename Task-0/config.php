@@ -2,15 +2,14 @@
 define('TITLE', 'Boooks Maggazzinn');	
 define('DEFAULT', 'Boooks Maggazzinn');	
 	
-define('MYSQL_HOST', 'localhost');	
-define('MYSQL_USER', 'root');	
-define('MYSQL_PASS', '');	
-define('MYSQL_DB_NAME', 'books');	
+define('HOST', 'localhost');	
+define('USER', 'root');	
+define('PASS', '');	
+define('DB_NAME', 'books');	
 
 define('MODEL', 'model.php');	
 define('CONTROLLER', 'controller.php');	
-define('VIEW', 'template/');	
-define('TEMPLATE', './template/default/');	
+define('TEMPLATE', './template/');	
 
 define('RCOLOR', '1');
 

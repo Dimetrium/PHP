@@ -1,24 +1,17 @@
 <?php
-function genreMenu(){
-		global $link;
-		$query = 
-			"SELECT genrename FROM genre";
-		if ($stmt = mysqli_prepare($link, $query)) {
-    /* Запустить запрос */
-    mysqli_stmt_execute($stmt);
-    /* Определить переменные для результата */
-    mysqli_stmt_bind_result($stmt, $genre);
-    /* Выбрать значения */
-    
-    $dropdown = '';
-    while (mysqli_stmt_fetch($stmt)) 	{
-			$dropdown .= $genre[genrename];
-		}
-			    mysqli_stmt_close($stmt);
-//	mysqli_free_result($result);
-	mysqli_close($link);
+mysql_connect('HOST', 'USER','PASS');
+mysql_select_db('DB_NAME');
+
+
+function genreMenu()
+{
+  $dropdown = '';
+  $qGenre = mysql_query( "SELECT genrename FROM genre" );	
+  while ( $rez = mysql_fetch_assoc( $query ) ) 
+  {
+	  $dropdown .= $genre[genrename];
+  }
 	return $dropdown;
-	}
 }
 
 ///*-----------Function Get Menu ---------*/

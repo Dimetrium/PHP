@@ -1,13 +1,7 @@
-<?php
-	mysql_connect('localhost','root','');
-	mysql_select_db('books');
-	
-	
-?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-<title>Книжный Каталог</title>
+<title><?=TITLE?></title>
 <meta name="" content="">
 <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
 </head>
@@ -16,27 +10,26 @@
 <div id="admin_button"><a class="admin" style="background-color: red;" href="admin.php">Администратор</a></div>
 <div id="header"><a id="header_link" href="index.php">Книжный Каталог</a></div>
 <div id="content">
-<?php
-	$qGenre=mysql_query("SELECT genrename FROM genre");	
-	
-	echo '
-		<table style="margin: auto;">	
-			<tr>
-			<form method="GET" action="index.php">
-			<td>Название/Автор:<br>
-				<input type="text" name="search"/></td>
-			<td>Жанр:<br>
-				<select name="genre">
-				<option value="">Любой</option>';
-	while($genre=mysql_fetch_assoc($qGenre)){
-		echo "<option>$genre[genrename]</option>";
-	}	
-	echo '		</select></td>
-			<td><br><input type="submit" name="show" value="Показать"/></td>
-			</form></tr>
-		</table><br>
-	';
-	if(isset($_GET['show'])){
+	<table style="margin: auto;">	
+		<tr>
+      <form method="GET" action="index.php">
+        <td>Название/Автор:<br>
+         <input type="text" name="search"/>
+        </td>
+        <td>Жанр:<br>
+         <select name="genre">
+           <option value="">Любой</option>
+           <option><?=genreMenu();?></option>
+         </select>
+        </td>
+        <td><br>
+          <input type="submit" name="show" value="Показать"/>
+        </td>
+      </form>
+    </tr>
+	</table><br>
+  
+if(isset($_GET['show'])){
 		$qShow=mysql_query("
 			SELECT
 				b.id,

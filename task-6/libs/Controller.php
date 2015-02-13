@@ -30,11 +30,7 @@ class Controller
         {
           $this->model->sendedEmail = 'Your Email was sended!';
         }
-      return $this->pageDefault();    
-      }
-      else
-      {
-        $this->model->errors = 'Sorry, somthing wron, try again!';
+          return $this->pageDefault();    
       }
 			$mArray = $this->model->getArray();		
 	    $this->view->addToReplace($mArray);	

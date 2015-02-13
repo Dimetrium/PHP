@@ -22,11 +22,10 @@ Plugin 'scrooloose/syntastic'
 Plugin 'tomasr/molokai'
 Plugin 'flazz/vim-colorschemes'
 
-
+autocmd FileType php setlocal foldmethod=manual 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-
 colorscheme MountainDew
 set tabstop=2
 set shiftwidth=2

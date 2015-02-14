@@ -10,14 +10,17 @@ class Model
   private $sendedEmail;
   private $allert = 'danger';
   private $hidden = HIDDEN;
+  
   public function __construct()
   {
     $this->select = 'Select Subject';
   }
+  
   public function clearVars($var)
   {
     return trim(strip_tags($var));
   }
+  
   public function getArray()
   {	    
     return array(
@@ -36,6 +39,7 @@ class Model
 
   public function checkForm()
   {
+    //Name check
     $this->name = $this->clearVars( $_POST["name"] );
     if (empty($this->name))
     {
@@ -52,12 +56,15 @@ class Model
       $this->name;
     }
 
+    //email check
     $this->email = $this->clearVars($_POST["e-mail"]);
     if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) 
     {
       $this->errors .= "Invalid email format<br>"; 
       $this->hidden = '';
     }
+    
+    //select check
     $this->select = $this->clearVars($_POST["select"]);
     if ($this->select === 'Select Subject')
     {
@@ -68,6 +75,8 @@ class Model
     {
       $this->select;
     }
+    
+    //comment chk
     $this->message = $this->clearVars($_POST["comment"]);
     if (empty($this->message)) 
     {
@@ -79,6 +88,7 @@ class Model
       $this->message;
     }
 
+    //errors checkout
     if(is_null($this->errors))
     {
       return true;
@@ -88,6 +98,7 @@ class Model
       return false;
     }    
   }
+  
   public function sendEmail()
   {
     $browser = '';
@@ -114,8 +125,12 @@ class Model
 
     $headers = "From: $this->email \r\n"."Reply-To: $this->email \r\n";
     $ip = $_SERVER["REMOTE_ADDR"];
-    $this->send = mail(TO, $this->select,"$this->message\r\nBest Regards, $this->name\r\nip: $ip\r\nBrowser: $browser", $headers);   
-    if(!is_null($this->send))
+    $this->send = mail( TO, 
+      $this->select, 
+      "$this->message\r\nBest Regards, 
+       $this->name\r\nip: $ip\r\nBrowser: $browser", 
+       $headers );   
+    if( !is_null( $this->send ) )
     {
       $this->sendedEmail = 'Your Email was sended!';
       $this->hidden = '';

@@ -24,7 +24,7 @@ class Controller
 		
 		private function pageSendMail()
 		{
-			if($this->model->checkForm() === true)
+			if( true === $this->model->checkForm())
 			{
         $this->model->sendEmail();
       }

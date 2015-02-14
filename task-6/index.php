@@ -1,8 +1,9 @@
 <?php
 include ('config.php');
-include ('libs/Controller.php');
-include ('libs/View.php');
-include ('libs/Model.php');
+function __autoload($class)
+{
+  include('libs/'.$class.'.php');
+}
 try
 {
   $obj = new Controller();

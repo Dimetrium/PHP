@@ -26,14 +26,11 @@ class Controller
 		{
 			if($this->model->checkForm() === true)
 			{
-        if( $this->model->sendEmail() === true)
-        {
-          $this->model->sendedEmail = 'Your Email was sended!';
-        }
-          return $this->pageDefault();    
+        $this->model->sendEmail();
       }
 			$mArray = $this->model->getArray();		
 	    $this->view->addToReplace($mArray);	
+      return $this->pageDefault();    
 		}	
 			    
 		private function pageDefault()

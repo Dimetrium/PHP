@@ -7,13 +7,17 @@ class Model
   private $message;
   private $errors;
   private $send;
+  private $sendedEmail;
+  private $allert = 'danger';
+  private $hidden = HIDDEN;
   public function __construct()
   {
+    $this->select = 'Select Subject';
   }
-  // public function clearVar($var)
-  // {
-  //   return trim(strip_tags($var));
-  // }
+  public function clearVars($var)
+  {
+    return trim(strip_tags($var));
+  }
   public function getArray()
   {	    
     return array(
@@ -22,43 +26,57 @@ class Model
       '%STYLE%'=>STYLE,
       '%NAME%' =>$this->name,
       '%EMAIL%' =>$this->email,
+      '%SELECT%' =>$this->select,
       '%INFORM%' =>$this->sendedEmail,
-      '%MESSAGE%' =>$this->message
+      '%MESSAGE%' =>$this->message,
+      '%HIDDEN%' => $this->hidden,
+      '%ALLERT%' => $this->allert
     );	
   }
 
   public function checkForm()
   {
-    // echo '<pre>';
-    // var_dump($_POST);
-    // echo '</pre>';
-    $this->name = $_POST["name"];
+    $this->name = $this->clearVars( $_POST["name"] );
     if (empty($this->name))
     {
       $this->errors .= "Name can be empty<br>";
+      $this->hidden = '';
     }
     elseif (!preg_match("/^[a-zA-Z ]*$/", $this->name)) 
     {
       $this->errors .= "Only letters and white space allowed<br>"; 
+      $this->hidden = '';
     }
     else
     {
       $this->name;
     }
 
-    $this->email = $_POST["e-mail"];
+    $this->email = $this->clearVars($_POST["e-mail"]);
     if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) 
     {
       $this->errors .= "Invalid email format<br>"; 
+      $this->hidden = '';
     }
-
-    if (empty($_POST["comment"])) 
+    $this->select = $this->clearVars($_POST["select"]);
+    if ($this->select === 'Select Subject')
+    {
+      $this->errors .= "You Must Select subject!<br>";
+      $this->hidden = '';
+    }
+    else
+    {
+      $this->select;
+    }
+    $this->message = $this->clearVars($_POST["comment"]);
+    if (empty($this->message)) 
     {
       $this->errors .= "Comment is empty<br>"; 
+      $this->hidden = '';
     } 
     else 
     {
-      $this->message = $_POST["comment"];
+      $this->message;
     }
 
     if(is_null($this->errors))
@@ -96,10 +114,12 @@ class Model
 
     $headers = "From: $this->email \r\n"."Reply-To: $this->email \r\n";
     $ip = $_SERVER["REMOTE_ADDR"];
-    $this->send = mail(TO, $this->select,"$this->massage\r\nBest Regards,
-    $this->name\r\nip: $ip\r\nBrowser: $browser", $headers);   
+    $this->send = mail(TO, $this->select,"$this->message\r\nBest Regards, $this->name\r\nip: $ip\r\nBrowser: $browser", $headers);   
     if(!is_null($this->send))
     {
+      $this->sendedEmail = 'Your Email was sended!';
+      $this->hidden = '';
+      $this->allert = 'success';
       return true;
     }	
     else

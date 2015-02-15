@@ -1,58 +1,98 @@
 <?php
 class Sql
 {
-  protected $connect;
-  protected $select;
-  protected $insert;
-  protected $delete;
-  protected $selectQuery;
-  public function __construct()
+    protected $query;
+    
+    protected function selectQuery($row, $table, $limit)
   {
-    $this->connect;
-    $this->select;
-    $this->insert;
-    $this->delete;
-  }
-  protected function select()
-  {
-    $this->selectQuery '';
-    foreach($this->select as $key => $value)
+        $row = $this->protect($row);
+        $table = $this->protect($table);
+    if(empty($row) || empty($table))
     {
-      $this->selectQuery .= $key.' ';
-      $this->selectQuery .= $value.' ';
+        $queryError = "Error. One field is empty!";
+        return $this->query = $queryError;
     }
+    elseif(!array_search('*', $row)===false)
+    {
+        $queryError = "Error. You can't use '*' in query";
+        return $this->query = $queryError;
+    }
+      else
+      {
+        if (strlen($limit)!=0)
+        $limit=" LIMIT $limit";
+      $query = 'SELECT '.implode(', ',$row).' FROM '.implode(', ',$table).' '.$limit;
+      $this->query = $query;
+      }
     return true;
   }
-  protected function insert()
+      protected function deleteQuery($table, $name, $value, $limit)
   {
-    $this->selectQuery '';
-    foreach($this->insert as $key => $value)
+        $table = $this->protect($table);
+        $name = $this->protect($name);
+          if(empty($table) || empty($name) || empty($value))
     {
-      $this->selectQuery .= $key.' ';
-      $this->selectQuery .= $value.' ';
+        $queryError = "Error. One field is empty!";
+        return $this->query = $queryError;
     }
-    return true;
+      else
+      {
+          if (strlen($limit)!=0)
+              $limit=" LIMIT $limit";
+          $query  = 'DELETE FROM '.implode(', ',$table).' WHERE '.implode(', ', $name).' = '.$value.' '.$limit;
+          $this->query = $query;
+          return true;
+      }
   }
-  protected function insert()
+    
+  protected function insertQuery($row, $value, $table, $limit)
   {
-    $this->selectQuery '';
-    foreach($this->insert as $key => $value)
+      $row = $this->protect($row);
+      $value = $this->protect($value);
+      $table = $this->protect($table);
+      if(empty($table) || empty($row) || empty($value))
     {
-      $this->selectQuery .= $key.' ';
-      $this->selectQuery .= $value.' ';
-    }
-    return true;
-  }
-
-  protected function delete()
-  {
-    $this->selectQuery '';
-    foreach($this->delete as $key => $value)
+        $queryError = "Error. One field is empty!";
+        return $this->query = $queryError;
+      }
+      elseif(!array_search('*', $row)===false)
     {
-      $this->selectQuery .= $key.' ';
-      $this->selectQuery .= $value.' ';
+        $queryError = "Error. You can't use '*' in query";
+        return $this->query = $queryError;
     }
-    return true;
+    else
+    {
+    $query = 'INSERT INTO '.implode(', ',$table).' ('.implode(', ',$row).') VALUES ('.implode(', ',$value).')';
+      $this->query = $query;
+      return true;
+    }
   }
-  public function set(
+  
+    protected function updateQuery($oldName, $newName, $table, $limit)
+   {    $oldName = $this->protect($oldName);
+        $newName = $this->protect($newName);
+        $table = $this->protect($table);
+  if(empty($oldName) || empty($table))
+    {
+        $queryError = "Error. One field is empty!";
+        return $this->query = $queryError;
+    }
+    else
+    {
+    if (strlen($limit)!=0)
+        $limit=" LIMIT $limit";
+    $query = 'UPDATE '.implode(', ',$table). ' SET '.implode(', ',$oldName).' = '.implode(', ',$newName).' '.$limit;
+      $this->query = $query;
+      return true;
+    }
+  }
+    protected function protect($value){
+        $value = array_filter($value);
+        $value = implode(', ', $value);
+        $value = htmlspecialchars(trim($value));
+        $value = explode(', ', $value);
+        $value = array_filter($value);
+        return $value;
+    }
+}
 ?>

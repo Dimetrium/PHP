@@ -1,98 +1,141 @@
 <?php
 class Sql
 {
-    protected $query;
-    
-    protected function selectQuery($row, $table, $limit)
+  protected $query;
+  protected $table;
+  protected $column;
+  protected $where;
+  protected $value;
+  protected $connect;
+  protected $errors;
+
+  private function varCheck($var)
   {
-        $row = $this->protect($row);
-        $table = $this->protect($table);
-    if(empty($row) || empty($table))
-    {
-        $queryError = "Error. One field is empty!";
-        return $this->query = $queryError;
-    }
-    elseif(!array_search('*', $row)===false)
-    {
-        $queryError = "Error. You can't use '*' in query";
-        return $this->query = $queryError;
-    }
-      else
-      {
-        if (strlen($limit)!=0)
-        $limit=" LIMIT $limit";
-      $query = 'SELECT '.implode(', ',$row).' FROM '.implode(', ',$table).' '.$limit;
-      $this->query = $query;
-      }
-    return true;
+    $var = htmlspecialchars((trim( strip_tags( $var ))));
+    return $var;
   }
-      protected function deleteQuery($table, $name, $value, $limit)
+  
+  
+  protected function setTable($var)
   {
-        $table = $this->protect($table);
-        $name = $this->protect($name);
-          if(empty($table) || empty($name) || empty($value))
+    $this->table = $this->varCheck($var);
+    if(empty($this->table))
     {
-        $queryError = "Error. One field is empty!";
-        return $this->query = $queryError;
-    }
-      else
-      {
-          if (strlen($limit)!=0)
-              $limit=" LIMIT $limit";
-          $query  = 'DELETE FROM '.implode(', ',$table).' WHERE '.implode(', ', $name).' = '.$value.' '.$limit;
-          $this->query = $query;
-          return true;
-      }
-  }
-    
-  protected function insertQuery($row, $value, $table, $limit)
-  {
-      $row = $this->protect($row);
-      $value = $this->protect($value);
-      $table = $this->protect($table);
-      if(empty($table) || empty($row) || empty($value))
-    {
-        $queryError = "Error. One field is empty!";
-        return $this->query = $queryError;
-      }
-      elseif(!array_search('*', $row)===false)
-    {
-        $queryError = "Error. You can't use '*' in query";
-        return $this->query = $queryError;
+      $this->errors .= 'Table can not be empty | ';
     }
     else
     {
-    $query = 'INSERT INTO '.implode(', ',$table).' ('.implode(', ',$row).') VALUES ('.implode(', ',$value).')';
-      $this->query = $query;
-      return true;
+      return $this;
+    }
+  }
+
+  protected function setColumn($var)
+  {
+    $this->column = $this->varCheck($var);
+    if('*' == $this->column || empty($this->column))
+    {
+      $this->errors .= 'Symbol "*" for bidden, field must be specified! | ';
+    }
+    else
+    {
+      return $this;
     }
   }
   
-    protected function updateQuery($oldName, $newName, $table, $limit)
-   {    $oldName = $this->protect($oldName);
-        $newName = $this->protect($newName);
-        $table = $this->protect($table);
-  if(empty($oldName) || empty($table))
+  protected function setWhere($var)
+  {
+    $this->where = $this->varCheck($var);
+    if(empty($this->where))
     {
-        $queryError = "Error. One field is empty!";
-        return $this->query = $queryError;
+      $this->errors .= 'Where can not be empty | ';
     }
     else
     {
-    if (strlen($limit)!=0)
-        $limit=" LIMIT $limit";
-    $query = 'UPDATE '.implode(', ',$table). ' SET '.implode(', ',$oldName).' = '.implode(', ',$newName).' '.$limit;
-      $this->query = $query;
-      return true;
+      return $this;
     }
   }
-    protected function protect($value){
-        $value = array_filter($value);
-        $value = implode(', ', $value);
-        $value = htmlspecialchars(trim($value));
-        $value = explode(', ', $value);
-        $value = array_filter($value);
-        return $value;
+
+  protected function setValue($var)
+  {
+    $this->value = $this->varCheck($var);
+    if(empty($this->value))
+    {
+      $this->errors .= 'Value can not be empty | ';
+      return $this;
     }
+    else
+    {
+      return $this;
+    }
+  }
+
+  protected function selectQuery()
+  {
+    $col = $this->column;
+    $table = $this->table;
+    $where = $this->where;
+    $value = $this->value;
+    if( true == $this->errors)
+    {
+      $err = $this->errors;
+      $this->errors = NULL;
+      return $err;
+    }
+    else
+    {
+      return "SELECT $col FROM $table WHERE $where = $value;";
+    }
+  }
+  
+  protected function insertQuery()
+  {
+    $col = $this->column;
+    $table = $this->table;
+    $value = $this->value;
+    if( true == $this->errors)
+    {
+      $err = $this->errors;
+      $this->errors = NULL;
+      return $err;
+    }
+    else
+    {
+    return "INSERT INTO $table($col) VALUES ($value);";
+    }
+  }
+  
+  protected function updateQuery()
+  {
+    $col = $this->column;
+    $table = $this->table;
+    $value = $this->value;
+    if( true == $this->errors)
+    {
+      $err = $this->errors;
+      $this->errors = NULL;
+      return $err;
+    }
+    else
+    {
+    return "UPDATE $table SET $col=$value;";
+    }
+  }
+  
+  protected function deleteQuery()
+  {
+    $col = $this->column;
+    $table = $this->table;
+    $value = $this->value;
+    if( true == $this->errors)
+    {
+      $err = $this->errors;
+      $this->errors = NULL;
+      return $err;
+    }
+    else
+    {
+    return "DELETE FROM $table WHERE $col = $value;";
+    }
+  }
 }
 ?>

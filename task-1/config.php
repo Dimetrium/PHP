@@ -1,11 +1,9 @@
 <?php
-define('UPLOAD_DIR', '/tmp/');
-define('TEMPLATE', 'templates/table.php');
-define('LIB', 'lib/lib.php');
-
-define('SUCCESS','File has been successfully uploaded.');
-define('FAIL','Uploading was failed.');
-define('NO_FILES','Folder "Uploads" is empty.');
-define('DELETED','File has been successfully deleted.');
-define('ER_DEL','Deleting was failed.');
+define('CONTROLLER', 'functions.php');
+define('VIEW', 'templates/index.php');
+$tmp_name = $_FILES['user_file']['tmp_name'];
+$name = $_FILES['user_file']['name'];
+define('DIR', "files/$name");
+define('DIR_DEST', "files/");
+$count=1;
 ?>

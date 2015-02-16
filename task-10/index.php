@@ -8,15 +8,15 @@ function __autoload($class)
 try
 {
   $mySql = new MyPdo;
+  $my_select = $mySql
+  ->setValue('3')
+  ->commitQuery();
 }
 catch(PDOException $e)
 {
   echo "Error: ".$e->getMessage();
 }
-$my_select = $mySql
-  ->setWhere('kay')
-  ->setValue('2')
-->commitQuery();
+
 
 include VIEW;
 ?>

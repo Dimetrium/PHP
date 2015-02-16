@@ -6,6 +6,8 @@
 </head>
 <body>
 <h1>MySQL</h1>
-<p><?=$my_select?></p>
+<pre>
+<p><?= var_Dump($my_select)?></p>
+</pre>
 </body>
 </html>

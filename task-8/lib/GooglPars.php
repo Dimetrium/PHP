@@ -10,7 +10,7 @@ else
   $keyword = '';
 }
 
-$html = file_get_html( "https://www.google.com.ua/search?q=$keyword&cad=h" );
+$html = file_get_html( "http://www.google.com.ua/search?q=$keyword&cad=h" );
 
 // Parse all <div id=ires><ol><li> tags.
 if ( $html->outertext!='' && count ( $html->find ( '#ires ol' )))

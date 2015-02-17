@@ -1,6 +1,5 @@
 <?php
-include 'simple_html_dom/simple_html_dom.php';
-$keyword = 'VIM';
+include 'simple_html_dom.php';
 
 $html = file_get_html( "https://www.google.com.ua/search?q=$keyword&cad=h" );
 // Parse all <div id=ires><ol><li> tags.
@@ -15,20 +14,14 @@ if ( $html->outertext!='' && count ( $html->find ( '#ires ol' )))
       $a->href = 'https://www.google.com.ua' . $a->href;
     }
     // Clear style
-    foreach ( $ol->find ( '*[style]' ) as $s )
+    foreach ( $ol->find ( '*[class]' ) as $s )
     {
-     $s->innertext = 'jjjj';
+     $s->class = '';
     }
-    
-    echo $ol->outertext . '</br>';
+    $res = $ol->outertext . '</br>';
+    return $res; 
   }
 }
-
-
-//////////////////////////////////////////////////////////////////////////////
-////TODO: Cutoff all styles.
-//$b = $html->find('div.kv[style]');
-//$b->outertext = '';
 
 
 $html->clear();

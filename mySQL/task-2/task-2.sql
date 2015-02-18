@@ -16,3 +16,9 @@ SHOW SESSION STATUS LIKE 'Last_query_cost' и explain вашего sql
 
 P.S. Все что выполняете в консоли MySQL - логируйте в файл для 
 проверки.
+
+______________
+I used following way it basically copies data from itself , the data grows exponentially with every execution.Claveat is that You have to have some sample data at first and also you have to execute the query eg I had 327680 rows of data when i started with 10 rows of data .by executing the query just 16 times.Execute one more time and i will hage 655360 rows of data!
+
+ insert into mytable select [col1], [col2], [col3] from mytable 
+ _____________

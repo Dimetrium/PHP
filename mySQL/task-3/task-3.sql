@@ -25,7 +25,7 @@ mysql> EXPLAIN SELECT * FROM TableA INNER JOIN TableB ON TableA.name = TableB.na
 2 rows in set (0.00 sec)
 
 ___________________________________________________________________________________________________________
-
+ 
 mysql> SELECT * FROM TableA
     ->      LEFT OUTER JOIN TableB
     ->      ON TableA.name = TableB.name

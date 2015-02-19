@@ -15,3 +15,5 @@ WHERE (class.type = 'bb')
 and (class.displacement > '35') 
 and (ships.launched > '1922')
 and (ships.class = class.class_1);
+35. Select distinct model, type FROM Product 
+WHERE (model LIKE '%[^A-Za-z]%') OR (model LIKE '%[0-9]%')

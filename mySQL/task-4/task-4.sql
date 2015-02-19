@@ -8,3 +8,10 @@
 31. select class, country from classes where bore >= '16';
 32.
 33. Select ship from outcomes where battle = 'North Atlantic' and result = 'sunk'
+34. SELECT DISTINCT ships.name 
+FROM ships, 
+(SELECT type, displacement, class FROM classes) AS class(type, displacement, class_1)
+WHERE (class.type = 'bb') 
+and (class.displacement > '35') 
+and (ships.launched > '1922')
+and (ships.class = class.class_1);

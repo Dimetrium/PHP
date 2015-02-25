@@ -10,7 +10,7 @@ class HtmlHelper
   public static function renderSelectMulti( $class, $value )
   {
     $render = '';
-    $render .= '<select class="'.$class.'">';
+    $render .= '<select multiple class="'.$class.'" >';
     foreach( $value as $res => $opt ) 
     {
       $render .= '<option>'.$opt.'</option>';

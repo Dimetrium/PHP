@@ -1,55 +1,56 @@
 <?php
 class Editor
 {
-  private $f_import; 
-  private $f_export;
-	
+  private $fileHolder; 
+  private $fileExport;
+
+/**
+ * Autoload file for processing
+ * @FILE_IMPORT - input.txt 
+ * @FILE_EXPORT - output.txt 
+ **/
   public function __construct()
   {
-    $this->f_import = file(F_IMPORT);
-    $this->f_export = file(F_EXPORT);
+    $this->fileHolder = file(FILE_IMPORT);
+    $this->fileExport = file(FILE_EXPORT);
   } 
-	
-//	public function __destruct()
-//	{
-//file_put_contents(F_EXPORT, $this->f_import);
-//	}
 	
   public function printFile($lineNum = '')
 	{
-		return $this->f_import;
+    return $this->fileHolder;
 	}
 	
   public function getLine($selectLine)
   {
-    return $this->f_import[$selectLine];
+    return $this->fileHolder[$selectLine];
+     
   }
 	
 	public function getChar($selectCharLine, $selectCharPosition)
 	{
-		return $this->f_import[$selectCharLine][$selectCharPosition];
+		return $this->fileHolder[$selectCharLine][$selectCharPosition];
 	}
 
 	public function replaceLine($getRepLine, $replaceLine)
 	{
-		$this->f_import[$getRepLine] = $this->f_import[$replaceLine];
-		return $this->f_import;
+		$this->fileHolder[$getRepLine] = $this->fileHolder[$replaceLine];
+		return $this->fileHolder;
 	}	
 	
 	public function replaceChar($getCharLine, $getCharNum, $replacedChar)
 	{
-		$this->f_import[$getCharLine][$getCharNum] = $replacedChar;
-		return $this->f_import;
+		$this->fileHolder[$getCharLine][$getCharNum] = $replacedChar;
+		return $this->fileHolder;
 	}
 	
 	public function exportFile()
 	{
-		file_put_contents(F_EXPORT, $this->f_import);
+		file_put_contents(FILE_EXPORT, $this->fileHolder);
 	}
 
 	public function printExportFile()
 	{
-		return $this->f_export;
+		return $this->fileExport;
 	}
 	
 }

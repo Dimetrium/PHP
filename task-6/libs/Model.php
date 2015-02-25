@@ -135,6 +135,10 @@ class Model
       $this->sendedEmail = 'Your Email was sended!';
       $this->hidden = '';
       $this->allert = 'success';
+      $this->name = '';
+      $this->email = '';
+      $this->message = '';
+      $this->select = 'Select Subject';
       return true;
     }	
     else

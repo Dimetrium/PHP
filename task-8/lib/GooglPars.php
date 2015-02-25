@@ -10,7 +10,18 @@ else
   $keyword = '';
 }
 
-$html = file_get_html( "http://www.google.com.ua/search?q=$keyword&cad=h" );
+//get html dom using CURL
+$curl = curl_init("http://www.google.com.ua/search?q=$keyword&cad=h");
+curl_setopt( $curl, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt( $curl, CURLOPT_HEADER, 0);
+
+/**
+ * Create a new obj $html
+ * and loads a result of the function CURL.
+ */
+$html = new simple_html_dom();
+$html->load(curl_exec($curl));
+curl_close ($curl);
 
 // Parse all <div id=ires><ol><li> tags.
 if ( $html->outertext!='' && count ( $html->find ( '#ires ol' )))

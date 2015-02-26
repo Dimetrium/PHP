@@ -9,14 +9,17 @@ class Band implements iBand
     $this->nameBand = $nameBand;
     $this->genre = $genre;
   }
+  
   public function getName()
   {
     return $this->nameBand;
   }
+  
   public function getGenre()
   {
     return $this->genre;
   }
+  
   public function addMusician(iMusician $obj)
   {
     $this->musician[] = $obj;
@@ -26,17 +29,13 @@ class Band implements iBand
   {
     foreach ($this->musician as $item)
     {
-      $musician[] = $item->getName().'<br>type: '.$item->getMusicianType().'<br>'.$item->getInstrument().'<br>';
+      $musician[] = array(
+        'Musician' => $item->getName(), 
+        'Type' => $item->getMusicianType(), 
+        'Instrument' => $item->getInstrument());
     }
-    return $musician = implode("<br/>", $musician);
+    return $musician;
   }
 
-  public function bandInfo()
-  {  
-    $str = 'Band: '.$this->getName().'<br>';
-    $str.= 'Genre: '.$this->getGenre().'<br><br>';
-    $str.= 'Musician: '.$this->getMusician() .'<br><br>';
-    return $str;
-  }
 }
 

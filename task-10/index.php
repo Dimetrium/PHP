@@ -9,6 +9,9 @@ try
 {
   $mySql = new MyPdo;
   $my_select = $mySql
+  ->setSelect('name')
+  ->setFrom('TableA')
+  ->setWhere('id =')
   ->setValue('3')
   ->commitQuery();
 }

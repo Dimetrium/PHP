@@ -7,10 +7,10 @@ function __autoload( $class )
 
 $style = HtmlHelper::css( STYLE );
 
+ 
 $selecMulti = HtmlHelper::renderSelectMulti(
   'selectpicker', 
-  array( 'Options','One', 'Two', 'Three' )
-);
+  array( 'Options','One', 'Two', 'Three' ));
 
 $thead = HtmlHelper::renderTable(
   'table',

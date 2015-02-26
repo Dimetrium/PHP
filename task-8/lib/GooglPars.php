@@ -20,7 +20,7 @@ curl_setopt( $curl, CURLOPT_HEADER, 0);
  * and loads a result of the function CURL.
  */
 $html = new simple_html_dom();
-$html->load(curl_exec($curl));
+$html->load(iconv('CP1251', 'UTF-8', (curl_exec($curl))));
 curl_close ($curl);
 
 // Parse all <div id=ires><ol><li> tags.

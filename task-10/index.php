@@ -7,19 +7,24 @@ function __autoload($class)
 
 try
 {
-  $mySql = new MyPdo;
+  $mySql = new Sql;
   $my_select = $mySql
-  ->setSelect('name')
+  ->setSelect('id, name')
   ->setFrom('TableA')
   ->setWhere('id =')
   ->setValue('3')
   ->commitQuery();
+  
+  include VIEW;
 }
 catch(PDOException $e)
+{
+  echo "PDO Error: ".$e->getMessage();
+}
+
+catch(Exception $e)
 {
   echo "Error: ".$e->getMessage();
 }
 
-
-include VIEW;
 ?>

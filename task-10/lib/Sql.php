@@ -2,11 +2,22 @@
 class Sql
 {
   protected $value;
+  protected $bindValue;
   protected $select;
+  protected $query;
   protected $errors;
   protected $from;
   protected $where;
-  
+  protected $link;
+
+  public function __construct()
+  {
+    $this->link = new PDO(
+      "mysql:host=".HOST.";
+    dbname=".DB_NAME.";
+    ", USER, PASSWORD);
+    $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  }
 
   private function varCheck($var)
   {
@@ -14,61 +25,87 @@ class Sql
     return $var;
   }
   
-  
-  protected function setValue($var)
-   {
+  public function setValue($var)
+  {
     $this->value = $this->varCheck($var);
-    if(empty($this->value))
+    
+    // If value is set, in sql query add ":value" key for binding params. 
+    if ( empty( $this->value ))
     {
-      $this->errors .= 'Value can not be empty | ';
-      return $this;
+      $this->bindValue = NULL;
     }
     else
-    {
-      return $this;
+    { 
+      $this->bindValue = ':value';
     }
-   }
-  
-  protected function setSelect($var)
-   {
-    $this->select = $this->varCheck($var);
+
+    return $this;
+  }
+
+  public function setSelect($var)
+  {
+    $this->select = "SELECT ".$this->varCheck($var);
     if(empty($this->select))
     {
-      $this->errors .= 'Value can not be empty | ';
-      return $this;
+      throw new Exception("Select expression can not be empty.");
     }
     else
     {
       return $this;
     }
-   }
-  
-  protected function setFrom($var)
-   {
-    $this->from = $this->varCheck($var);
+  }
+
+  public function setFrom($var)
+  {
+    $this->from = " FROM ".$this->varCheck($var);
     if(empty($this->from))
     {
-      $this->errors .= 'Value can not be empty | ';
-      return $this;
+      throw new Exception("From can not be empty.");
     }
     else
     {
       return $this;
     }
-   }
-  
-  protected function setWhere($var)
-   {
+  }
+
+public function setWhere($var)
+  {
     $this->where = $this->varCheck($var);
-    if(empty($this->where))
+    if ( empty( $this->where ))
     {
-      $this->errors .= 'Value can not be empty | ';
-      return $this;
+      $this->where = NULL;
     }
     else
-    {
-      return $this;
+    { 
+      $this->where = " WHERE ".$this->where;
     }
-   }
+    return $this;
+  }
+
+  private function setQuery()
+  {
+    return 
+      "$this->select".
+      "$this->from".
+      "$this->where".
+      "$this->value";
+  }
+
+  public function commitQuery()
+  {
+    $stmt = $this->link->prepare( $this->setQuery() );
+    
+    if ( isset( $this->value ))
+    {
+      $stmt->bindParam(':value', $this->value);
+    }
+    
+    $stmt->execute();
+    
+    $rez = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $rez;
+
+
+  }
 }
 ?>

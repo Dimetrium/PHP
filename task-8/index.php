@@ -5,7 +5,14 @@ function __autoload($class)
   include_once('lib/'.$class.'.php');
 }
 //require_once('lib/GooglPars.php');
-
-$res = new GooglePars($_POST['keyword']);
-var_dump($res->getHtml);
+if(isset($_POST['keyword']))
+{
+  $keyword = rawurlencode( $_POST['keyword']);
+}  
+else
+{
+  $keyword = '';
+}
+$res = new GooglePars($keyword);
+var_dump($res);
 include TEMPLATE;

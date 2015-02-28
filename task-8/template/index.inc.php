@@ -10,7 +10,7 @@
 <?php
 if(isset($res))
   {
-    echo $res;
+    var_dump( $res);
   }
 else
   {

@@ -7,30 +7,17 @@ class GooglePars
     
   public function __construct($keyword)
   {
-    $this->keyword = rawurlencode($keyword);
-    if(isset($this->keyword))
-    {
-      return $this->keyword;
-    }  
-    else
-    {
-      return $this->keyword ='';
-    }
+    $this->keyword = $keyword;
   }
 
   protected function getHtml()
   {
-    $this->curl = curl_init("http://www.google.com.ua/search?q=$this->keyword&cad=h");
-    curl_setopt( $this->curl, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt( $this->curl, CURLOPT_HEADER, 0);
-    return $this->curl;
-  }
-
-  protected function simpleDom()
-  {
-    $this->html = new simple_html_dom();
-    $this->html->load(iconv('CP1251', 'UTF-8', (curl_exec($this->curl))));
-    curl_close ($this->curl);
+    $curl = curl_init("http://www.google.com.ua/search?q=$this->keyword&cad=h");
+    curl_setopt( $curl, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt( $curl, CURLOPT_HEADER, 0);
+    $html = new simple_html_dom();
+    $html->load(iconv('CP1251', 'UTF-8', (curl_exec($curl))));
+    curl_close ($curl);
     return $this->html;
   }
 

@@ -2,32 +2,32 @@
 class GooglePars
 {
   private $keyword;
-  private $curl;
   private $html;
+  private $res;
     
-  public function __construct($keyword)
+  public function __construct( $keyword )
   {
     $this->keyword = $keyword;
-  }
-
-  protected function getHtml()
-  {
-    $curl = curl_init("http://www.google.com.ua/search?q=$this->keyword&cad=h");
+    $curl = curl_init( "http://www.google.com.ua/search?q=$this->keyword&cad=h" );
     curl_setopt( $curl, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt( $curl, CURLOPT_HEADER, 0);
-    $html = new simple_html_dom();
-    $html->load(iconv('CP1251', 'UTF-8', (curl_exec($curl))));
-    curl_close ($curl);
-    return $this->html;
+    $this->html = iconv( 'CP1251', 'UTF-8', ( curl_exec( $curl ) ) );
+    curl_close ( $curl );
   }
 
-  protected function parsElements()
-  {
-    if ( $this->html->outertext!='' && count ( $this->html->find ( '#ires ol' )))
-    {
-      foreach ( $this->html->find ( '#ires ol' ) as $ol )
-      {
 
+/**
+* Create a new obj $dom
+* and loads a result of the function CURL.
+*/
+  public function parsElements()
+  {
+    $dom = new simple_html_dom();
+    $dom->load( $this->html );
+    if ( $dom->outertext!='' && count ( $dom->find ( '#ires ol' )))
+    {
+      foreach ( $dom->find ( '#ires ol' ) as $ol )
+      {
         // Fix Url
         foreach ( $ol->find ( 'a' ) as $a )
         {
@@ -42,11 +42,11 @@ class GooglePars
         }
 
         $this->res = '<h3>Result: </h3></br>' . $ol->outertext . '</br>';
-        return $this->res; 
+       // return $this->res; 
       }
     }
-    $this->html->clear();
-    unset ( $this->html );
+    $dom->clear();
+    unset ( $dom );
     return $this->res; 
   }
 }

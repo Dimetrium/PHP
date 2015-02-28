@@ -12,6 +12,7 @@
       <thead>
         <tr>
          <th><?php echo strtoupper(implode('</th><th>', array_keys(current($my_select)))); ?>
+        </th> 
         </tr>
       </thead>
       <tbody>

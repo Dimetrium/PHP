@@ -3,7 +3,7 @@ include 'simple_html_dom.php';
 
 if(isset($_POST['keyword']))
 {
-  $keyword = $_POST['keyword'];
+  $keyword = rawurlencode( $_POST['keyword']);
 }  
 else
 {

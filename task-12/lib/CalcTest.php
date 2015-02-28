@@ -1,7 +1,7 @@
 <?php
 include('Calc.php');
 
-class ClassTest extends PHPUnit_Framework_TestCase
+class CalcTest extends PHPUnit_Framework_TestCase
 {
   public function setUp()
   {
@@ -10,22 +10,30 @@ class ClassTest extends PHPUnit_Framework_TestCase
 
   public function testSum()
   {
-   $this->assertEquals(10, $this->calc->mul(3, 7)); 
+   $this->calc->setA(5);
+   $this->calc->setB(5);
+   $this->assertEquals(10, $this->calc->sum()); 
   }
 
   public function testSub()
   {
-    $this->assertEquals(7, $this->calc->sub(10, 3));
+    $this->calc->setA(10);
+    $this->calc->setB(3);
+    $this->assertEquals(7, $this->calc->sub());
   }
 
   public function testMul()
   {
-    $this->assertEquals(25, $this->mul(5, 5));
+    $this->calc->setA(5);
+    $this->calc->setB(5);
+    $this->assertEquals(25, $this->calc->mul(5, 5));
   }
 
   public function testDiv()
   {
-    $this->assertEquals(5, $this->div(25, 5));
+    $this->calc->setA(25);
+    $this->calc->setB(5);
+    $this->assertEquals(5, $this->calc->div(25, 5));
   }
 
   public function tearDown()

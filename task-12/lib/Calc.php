@@ -35,7 +35,7 @@ class Calc
 
   public function sum()
   {
-    return $this->a + $this->b;
+    return $this->c = $this->a + $this->b;
   }
 
 

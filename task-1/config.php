@@ -1,5 +1,6 @@
 <?php
-define('LIB', 'lib/function.php');
-define('TEMPLATE', 'template/index.php');
-define('UPLOAD_DIR', 'uploads');
+define('MODEL', 'model/model.php');
+define('VIEW', 'view/index.php');
+define('CONTROLLER', 'controller/controller.php');
+define('UPLOAD_DIR', 'upload/');
 ?>

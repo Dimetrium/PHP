@@ -10,13 +10,13 @@ $data->add( 'cookaaa','cookkaa value' );
 $cook = $data->read( 'cookaaa' );  
 
 $query = new MySql();
-$query->add( '5', 'ivan 5' );
+$query->add( '10', 'ivan 10' );
 
 $session = new Sessions();
 $session->add( '4', '4essTest');
 
-include TEMPLATE;
 
-$data->remove( 'cookaaa' );
-$query->remove( '5' );
-$session->remove('4');
+//$data->remove( 'cookaaa' );
+//$query->remove( '5' );
+//$session->remove('4');
+include TEMPLATE;

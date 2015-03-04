@@ -3,28 +3,30 @@ function upload( $file )
 {
   global $state;
   $uploadDir = UPLOAD_DIR;
-  $uploadFile = $uploadDir.basename( $file );
-  
-  if ( file_exists( $uploadFile ))
+  for ( $i=0; $i < count( $_FILES['file']['name']); $i++)
   {
-    $message = mess( 1 );
-    $state = 'info';
-    return $message;
-  }
+    $tmpFile = $_FILES['file']['tmp_name'][$i];
+    $file = $uploadDir.$_FILES['file']['name'][$i];
+    if ( file_exists( $file ))
+    {
+      $message = mess( 1 );
+      $state = 'info';
+      return $message; 
+    }
 
-  if ( move_uploaded_file( $_FILES['file']['tmp_name'], $uploadFile ))
-  { 
-    $message = mess( 2 );
-    $state = 'success';
-    return $message;
-  } 
-  else
-  {
-    $message = mess( 3 );
-    $state = 'danger';
-    return $message;
+    if ( move_uploaded_file( $tmpFile, $file ))
+    { 
+      $message = mess( 2 );
+      $state = 'success';
+    } 
+    else
+    {
+      $message = mess( 3 );
+      $state = 'danger';
+      return $message; 
+    }
   }
-
+  return $message; 
 }
 
 function del( $file )
@@ -96,12 +98,12 @@ function get_files_list()
         $i++;
       }
     }
-  return $list ;
-  closedir( $dir );
+    return $list ;
+    closedir( $dir );
   }
   else
   {
-  return false;
+    return false;
   }
 }
 

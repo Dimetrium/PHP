@@ -8,7 +8,7 @@
 <p>Cookie print: </p>
 <?=$cook;?><br>
 <p>MySQL print data: </p>
-<?=$query->read( '5' );?><br>
+<?=$query->read( '8' );?><br>
 <p>Session Print: </p>
 <?=$session->read( '4' );?>
 </body>

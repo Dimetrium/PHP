@@ -1,7 +1,6 @@
 <?php
 class MySql implements iDataWork
 {
-  //private $link;
   private $select;
   private $rez;
   public function __construct()
@@ -12,20 +11,25 @@ class MySql implements iDataWork
 
   public function add( $key, $val )
   {
-    $query = "INSERT INTO ".TABLE." ( firstname, lastname ) VALUES ('".$key."', '".$val."');";
-    mysql_query( $query );
-    return true;
+    if ( NULL == $this->read($key) )
+    {
+      $query = "INSERT INTO ".TABLE." ( id, name ) VALUES ('".$key."', '".$val."');";
+      mysql_query( $query );
+      return true;
+    }
+    else
+    {
+      die("ID $key exist");
+    }
   }
 
   public function read( $key )
   {
-    $query = "SELECT firstname, lastname  FROM ".TABLE." WHERE firstname=$key;";
-   $this->select = mysql_query($query);
+    $query = "SELECT id, name  FROM ".TABLE." WHERE id=$key;";
+    $this->select = mysql_query($query);
     while ( $row = mysql_fetch_array( $this->select, MYSQL_NUM ))
     { 
-      // todo: put printing into controller....
-      $this->rez = sprintf("FirstName: %s,<br> LastName: %s <br>", $row[0], $row[1]);
-
+      $this->rez = sprintf( "ID: %s<br> Name: %s <br>", $row[0], $row[1] );
     } 
     mysql_free_result( $this->select );
     return $this->rez;
@@ -33,8 +37,7 @@ class MySql implements iDataWork
 
   public function remove($key)
   {
-    //TODO: create notification of delete...
-    mysql_query("DELETE FROM ".TABLE." WHERE firstname=$key;");
+    mysql_query( "DELETE FROM ".TABLE." WHERE id=$key;" );
     return true;
   }
 }

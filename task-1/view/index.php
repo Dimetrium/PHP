@@ -11,7 +11,7 @@
       <form action="" method="POST" enctype="multipart/form-data">
         <label for="uploadFile">Select File</label>
         <input type="hidden" name="MAX_FILE_SIZE" value="100024" />
-        <input type="file" name="file" />
+        <input type="file" name="file[]" multiple ="multyple" />
         <input type="submit" name="upload" value="Upload" />
       </form>
     </div>

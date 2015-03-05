@@ -1,24 +1,180 @@
-Тема: MySQL:
+mysql> desc SQLtask2;
++-------+-----------------+------+-----+---------+-------+
+| Field | Type            | Null | Key | Default | Extra |
++-------+-----------------+------+-----+---------+-------+
+| id    | int(6) unsigned | NO   | PRI | NULL    |       |
+| col2  | varchar(255)    | YES  |     | NULL    |       |
+| col3  | text            | YES  |     | NULL    |       |
++-------+-----------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
 
-Найти и записать в тетради полное описание SELECT, INSERT, UPDATE, 
-DELETE, а также строковые и агрегатные функции.
+mysql> DELIMITER //
+mysql> create procedure test()
+    -> begin
+    -> declare count int default 1;
+    -> while count <= 700000 DO
+    -> insert into SQLtask2 (id, col2, col3) value (count, md5(rand()), md5(rand()));
+    -> set count = count + 1;
+    -> end while;
+    -> end //
+Query OK, 0 rows affected (0.02 sec)
 
-Практика: (task2)
-         а) Сделать тестовую таблицу с 3 полями: 1ое - инт, 2 варчар 
-255, 3 текстовое, - внести 700 000 записей, сгенерировав случайную 
-информацию
-(индексы и автоинкремент не используем);
-         б) Проверить поиск 600000-ной записи по каждому полю на 
-скорость выполнения и при помощи команды
-SHOW SESSION STATUS LIKE 'Last_query_cost' и explain вашего sql 
-запроса;
-         в) Создаем индекс к каждому полю и повторяем пункт б).
+mysql> delimiter ;
+mysql> call test();
+Query OK, 1 row affected (1 min 2.30 sec)
 
-P.S. Все что выполняете в консоли MySQL - логируйте в файл для 
-проверки.
+SELECT col2, col3 FROM SQLtask2 WHERE id = 600000;
++----------------------------------+----------------------------------+
+| col2                             | col3                             |
++----------------------------------+----------------------------------+
+| e80b2e33bd818c11074cd192dfde9840 | b2a373fc821879021a9a03c993938770 |
++----------------------------------+----------------------------------+
+1 row in set (0.00 sec)
 
-______________
-I used following way it basically copies data from itself , the data grows exponentially with every execution.Claveat is that You have to have some sample data at first and also you have to execute the query eg I had 327680 rows of data when i started with 10 rows of data .by executing the query just 16 times.Execute one more time and i will hage 655360 rows of data!
+SHOW SESSION STATUS LIKE 'Last_query_cost';
++-----------------+----------+
+| Variable_name   | Value    |
++-----------------+----------+
+| Last_query_cost | 0.000000 |
++-----------------+----------+
+1 row in set (0.00 sec)
 
- insert into mytable select [col1], [col2], [col3] from mytable 
- _____________
+explain select col2, col3 from SQLtask2 where id = 600000;
++----+-------------+----------+-------+---------------+---------+---------+-------+------+-------+
+| id | select_type | table    | type  | possible_keys | key     | key_len | ref   | rows | Extra |
++----+-------------+----------+-------+---------------+---------+---------+-------+------+-------+
+|  1 | SIMPLE      | SQLtask2 | const | PRIMARY       | PRIMARY | 4       | const |    1 |       |
++----+-------------+----------+-------+---------------+---------+---------+-------+------+-------+
+1 row in set (0.00 sec)
+
+SELECT id, col3 FROM SQLtask2 WHERE col2 = 'e80b2e33bd818c11074cd192dfde9840';
++--------+----------------------------------+
+| id     | col3                             |
++--------+----------------------------------+
+| 600000 | b2a373fc821879021a9a03c993938770 |
++--------+----------------------------------+
+1 row in set (0.55 sec)
+
+SHOW SESSION STATUS LIKE 'Last_query_cost';
++-----------------+---------------+
+| Variable_name   | Value         |
++-----------------+---------------+
+| Last_query_cost | 152990.280250 |
++-----------------+---------------+
+1 row in set (0.00 sec)
+
+explain SELECT id, col3 FROM SQLtask2 WHERE col2 = 'e80b2e33bd818c11074cd192dfde9840';
++----+-------------+----------+------+---------------+------+---------+------+--------+-------------+
+| id | select_type | table    | type | possible_keys | key  | key_len | ref  | rows   | Extra       |
++----+-------------+----------+------+---------------+------+---------+------+--------+-------------+
+|  1 | SIMPLE      | SQLtask2 | ALL  | NULL          | NULL | NULL    | NULL | 700000 | Using where |
++----+-------------+----------+------+---------------+------+---------+------+--------+-------------+
+1 row in set (0.00 sec)
+
+SELECT id, col2 FROM SQLtask2 WHERE col3 = 'b2a373fc821879021a9a03c993938770';
++--------+----------------------------------+
+| id     | col2                             |
++--------+----------------------------------+
+| 600000 | e80b2e33bd818c11074cd192dfde9840 |
++--------+----------------------------------+
+1 row in set (0.56 sec)
+
+SHOW SESSION STATUS LIKE 'Last_query_cost';
++-----------------+---------------+
+| Variable_name   | Value         |
++-----------------+---------------+
+| Last_query_cost | 152990.280250 |
++-----------------+---------------+
+1 row in set (0.01 sec)
+
+explain SELECT id, col2 FROM SQLtask2 WHERE col3 = 'b2a373fc821879021a9a03c993938770';
++----+-------------+----------+------+---------------+------+---------+------+--------+-------------+
+| id | select_type | table    | type | possible_keys | key  | key_len | ref  | rows   | Extra       |
++----+-------------+----------+------+---------------+------+---------+------+--------+-------------+
+|  1 | SIMPLE      | SQLtask2 | ALL  | NULL          | NULL | NULL    | NULL | 700000 | Using where |
++----+-------------+----------+------+---------------+------+---------+------+--------+-------------+
+1 row in set (0.00 sec)
+
+CREATE INDEX id ON SQLtask2 (id);
+Query OK, 700000 rows affected (7.65 sec)
+Records: 700000  Duplicates: 0  Warnings: 0
+
+CREATE INDEX name ON SQLtask2 (col2);
+Query OK, 700000 rows affected (14.67 sec)
+Records: 700000  Duplicates: 0  Warnings: 0
+
+ALTER TABLE SQLtask2 ADD FULLTEXT INDEX (col3);
+Query OK, 700000 rows affected (23.34 sec)
+Records: 700000  Duplicates: 0  Warnings: 0
+
+SELECT col2, col3 FROM SQLtask2 WHERE id = 600000;
++----------------------------------+----------------------------------+
+| col2                             | col3                             |
++----------------------------------+----------------------------------+
+| e80b2e33bd818c11074cd192dfde9840 | b2a373fc821879021a9a03c993938770 |
++----------------------------------+----------------------------------+
+1 row in set (0.00 sec)
+
+SHOW SESSION STATUS LIKE 'Last_query_cost';
++-----------------+----------+
+| Variable_name   | Value    |
++-----------------+----------+
+| Last_query_cost | 0.000000 |
++-----------------+----------+
+1 row in set (0.00 sec)
+
+explain SELECT col2, col3 FROM SQLtask2 WHERE id = 600000;
++----+-------------+----------+-------+---------------+---------+---------+-------+------+-------+
+| id | select_type | table    | type  | possible_keys | key     | key_len | ref   | rows | Extra |
++----+-------------+----------+-------+---------------+---------+---------+-------+------+-------+
+|  1 | SIMPLE      | SQLtask2 | const | PRIMARY,id    | PRIMARY | 4       | const |    1 |       |
++----+-------------+----------+-------+---------------+---------+---------+-------+------+-------+
+1 row in set (0.00 sec)
+
+SELECT id, col3 FROM SQLtask2 WHERE col2 = 'e80b2e33bd818c11074cd192dfde9840';
++--------+----------------------------------+
+| id     | col3                             |
++--------+----------------------------------+
+| 600000 | b2a373fc821879021a9a03c993938770 |
++--------+----------------------------------+
+1 row in set (0.00 sec)
+
+SHOW SESSION STATUS LIKE 'Last_query_cost';
++-----------------+----------+
+| Variable_name   | Value    |
++-----------------+----------+
+| Last_query_cost | 1.199000 |
++-----------------+----------+
+1 row in set (0.00 sec)
+
+explain select col2, col3 from SQLtask2 where id = 600000;
++----+-------------+----------+-------+---------------+---------+---------+-------+------+-------+
+| id | select_type | table    | type  | possible_keys | key     | key_len | ref   | rows | Extra |
++----+-------------+----------+-------+---------------+---------+---------+-------+------+-------+
+|  1 | SIMPLE      | SQLtask2 | const | PRIMARY,id    | PRIMARY | 4       | const |    1 |       |
++----+-------------+----------+-------+---------------+---------+---------+-------+------+-------+
+1 row in set (0.00 sec)
+
+SELECT id, col2 FROM SQLtask2 WHERE col3 = 'b2a373fc821879021a9a03c993938770';
++--------+----------------------------------+
+| id     | col2                             |
++--------+----------------------------------+
+| 600000 | e80b2e33bd818c11074cd192dfde9840 |
++--------+----------------------------------+
+1 row in set (0.57 sec)
+
+SHOW SESSION STATUS LIKE 'Last_query_cost';
++-----------------+---------------+
+| Variable_name   | Value         |
++-----------------+---------------+
+| Last_query_cost | 152990.280250 |
++-----------------+---------------+
+1 row in set (0.00 sec)
+
+explain SELECT id, col2 FROM SQLtask2 WHERE col3 = 'b2a373fc821879021a9a03c993938770'; 
++----+-------------+----------+------+---------------+------+---------+------+--------+-------------+
+| id | select_type | table    | type | possible_keys | key  | key_len | ref  | rows   | Extra       |
++----+-------------+----------+------+---------------+------+---------+------+--------+-------------+
+|  1 | SIMPLE      | SQLtask2 | ALL  | col3          | NULL | NULL    | NULL | 700000 | Using where |
++----+-------------+----------+------+---------------+------+---------+------+--------+-------------+
+1 row in set (0.00 sec)

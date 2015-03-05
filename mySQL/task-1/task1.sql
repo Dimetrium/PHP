@@ -39,7 +39,6 @@ CREATE TABLE `xyz_users` (
 
 CREATE TABLE `xyz_cart` (
   `book_id` INT(10),
-  `order_id` INT(100) NOT NULL AUTO_INCREMENT,
   `quantity` INT(10),
   `user_id` INT(10),
   PRIMARY KEY  (`order_id`)
@@ -47,7 +46,7 @@ CREATE TABLE `xyz_cart` (
 
 CREATE TABLE `xyz_orders` (
   `date` TIMESTAMP,
-  `order_id` INT(100),
+  `order_id` INT(100) NOT NULL AUTO_INCREMENT,
   `payment_id` TINYINT(10),
   `price` FLOAT,
   `user_id` INT(10)

@@ -48,13 +48,11 @@ function getQuery( $var )
 function getGenreMenu()
 {
   $dropdown .= '';
-{
   while ( getQuery('genre') )
   {
     $dropdown .= "<option>$genre[genrename]</option>";
   }
-}
-return $dropdown;
+  return $dropdown;
 }
 
 function getTableRow()

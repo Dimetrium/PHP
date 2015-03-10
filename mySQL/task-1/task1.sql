@@ -60,3 +60,10 @@ CREATE TABLE `xyz_payment` (
   PRIMARY KEY  (`pay_id`)
 );
 
+CREATE TABLE `xyz_cart_order` (
+  `id` INT(10),
+  `order_id` INT(100),
+  `book_id` INT(100),
+  `quantity` INT(10),
+  `price` FLOAT
+);

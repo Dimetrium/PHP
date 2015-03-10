@@ -45,12 +45,12 @@ CREATE TABLE `xyz_cart` (
 );
 
 CREATE TABLE `xyz_orders` (
+  `book_id` INT(10),
   `date` TIMESTAMP,
   `order_id` INT(100) NOT NULL AUTO_INCREMENT,
   `payment_id` TINYINT(10),
   `price` FLOAT,
   `user_id` INT(10),
-  `pay_status` ENUM('0','1')
 );
 
 CREATE TABLE `xyz_payment` (
